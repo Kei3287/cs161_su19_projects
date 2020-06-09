@@ -156,11 +156,8 @@ func InitUser(username string, password string) (userdataptr *User, err error) {
 		return nil, errors.New("Username already exists")
 	}
 
-	// generate RSA encryption keys
 	rsaPk, rsaSk, _ := userlib.PKEKeyGen()
 	userlib.KeystoreSet(username+"enc", rsaPk)
-
-	// generate RSA signature keys
 	dsSk, dsPk, _ := userlib.DSKeyGen()
 	userlib.KeystoreSet(username+"sig", dsPk)
 
@@ -220,7 +217,6 @@ func padString(str []byte) []byte {
 	return str
 }
 
-// TODO: add error checking
 func unpadString(str []byte) []byte {
 	padBytes := int(str[len(str)-1])
 	return str[0 : len(str)-padBytes]
